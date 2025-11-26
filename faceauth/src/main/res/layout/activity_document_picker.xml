@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.DocumentPickerActivity">
+
+    <!-- Heading -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="Upload Document"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:text="Upload Aadhaar card front image to verify your identity"
+        android:textColor="#777777"
+        android:textSize="14sp" />
+
+    <!-- Card for Image Preview -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/documentCard"
+        android:layout_width="220dp"
+        android:layout_height="280dp"
+        android:foreground="?selectableItemBackgroundBorderless"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:strokeColor="#000"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/documentImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.95"
+            android:src="@drawable/authentication"
+            android:scaleType="centerCrop" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Upload Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/pickAadhaarBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="32dp"
+        android:text="Select Aadhaar Image"
+        android:textAllCaps="false"
+        app:cornerRadius="12dp" />
+
+    <!-- Continue Button hidden until image loaded -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continueBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:visibility="gone" />
+</LinearLayout>
