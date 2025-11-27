@@ -85,14 +85,32 @@ class SelfieCameraActivity : AppCompatActivity() {
             .addOnSuccessListener { faces ->
                 if (faces.isNotEmpty()) {
                     val box = faces.first().boundingBox
-                    val face = Bitmap.createBitmap(bitmap, box.left, box.top, box.width(), box.height())
 
-                    ImageUtils.storeSelfieFace(this, face)    // ⬅ correct storage
+                    val rawFace = cropAlignedFace(bitmap, box)
+                    val finalFace = Bitmap.createScaledBitmap(rawFace, 160, 160, true)
+
+                    ImageUtils.storeSelfieFace(this, finalFace)
 
                     Toast.makeText(this, "Selfie Saved ✔", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, AuthResultActivity::class.java))  // ⬅ Move to matching screen
-                    finish() // Continue to authentication screen (next milestone)
+                    startActivity(Intent(this, AuthResultActivity::class.java))
+                    finish()
                 }
             }
     }
+
+    private fun cropAlignedFace(bitmap: Bitmap, box: android.graphics.Rect): Bitmap {
+        val size = maxOf(box.width(), box.height())
+        val cx = box.centerX()
+        val cy = box.centerY()
+
+        val x = (cx - size/2).toInt().coerceAtLeast(0)
+        val y = (cy - size/2).toInt().coerceAtLeast(0)
+
+        val finalSize = size.coerceAtMost(
+            minOf(bitmap.width - x, bitmap.height - y)
+        )
+
+        return Bitmap.createBitmap(bitmap, x, y, finalSize, finalSize)
+    }
+
 }

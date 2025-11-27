@@ -2,6 +2,7 @@ package com.example.faceauth.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +12,18 @@ import com.example.faceauth.utils.ImageUtils
 
 class AuthResultActivity : AppCompatActivity() {
 
-    private lateinit var text: TextView
+    private lateinit var message: TextView
+    lateinit var subMsg : TextView
+    lateinit var resultIcon : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth_result)
 
-        text = findViewById(R.id.message)
+        message = findViewById(R.id.message)
+        subMsg = findViewById(R.id.subMsg)
+        resultIcon = findViewById(R.id.resultIcon)
+
 
         val aadhaar = ImageUtils.getAadhaarFace(this)
         val selfie  = ImageUtils.getSelfieFace(this)
@@ -25,7 +31,7 @@ class AuthResultActivity : AppCompatActivity() {
         Log.d("AUTH_FLOW", "Aadhaar = ${aadhaar != null}, Selfie = ${selfie != null}")
 
         if (aadhaar == null || selfie == null) {
-            text.text = "⚠ Missing Aadhaar/Selfie Images"
+            message.text = "⚠ Missing Aadhaar/Selfie Images"
             Toast.makeText(this, "Capture Again!", Toast.LENGTH_LONG).show()
             return
         }
@@ -42,18 +48,28 @@ class AuthResultActivity : AppCompatActivity() {
             val distance = FaceMatcher.compare(emb1, emb2)
             Log.e("AUTH_FLOW_RESULT", "DISTANCE => $distance")
 
-            if (distance < 1.15f) {
-                text.text = "✔ MATCH — USER VERIFIED"
-                Toast.makeText(this, "✔ MATCH — VERIFIED", Toast.LENGTH_LONG).show()
-            } else {
-                text.text = "❌ FACE MISMATCH — AUTH FAILED"
-                Toast.makeText(this, "❌ AUTH FAILED", Toast.LENGTH_LONG).show()
+            if (distance < 0.90f) {
+                resultIcon.setImageResource(R.drawable.ic_success)     // ✔ Your blue tick icon
+                message.text = "Identity Verified"
+                subMsg.text = "Face successfully matched with Aadhaar."
             }
+            else if (distance < 1.10f) {
+                resultIcon.setImageResource(R.drawable.ic_failed)
+                message.text = "Low Match Confidence"
+                subMsg.text = "Face looks similar but not strong enough. Retake selfie with better lighting."
+            }
+            else {
+                resultIcon.setImageResource(R.drawable.ic_failed)
+                message.text = "Verification Failed"
+                subMsg.text = "Aadhaar and captured selfie do not match. Try again."
+            }
+
+
 
         } catch (e: Exception) {
             Log.e("AUTH_FLOW_ERROR", "${e.message}")
             Toast.makeText(this, "❌ Processing Failed", Toast.LENGTH_LONG).show()
-            text.text = "❌ ERROR — TRY AGAIN"
+            message.text = "❌ ERROR — TRY AGAIN"
         }
     }
 }

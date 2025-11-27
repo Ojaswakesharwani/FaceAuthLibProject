@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
+    android:background="#000000"
     tools:context=".ui.SelfieCameraActivity">
 
     <androidx.camera.view.PreviewView
@@ -20,16 +20,15 @@
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:background="@drawable/face_frame_border"
-        android:alpha="0.7"/>
+        android:alpha="0.55"/>
 
     <!-- Capture Button -->
-    <com.google.android.material.button.MaterialButton
+    <View
         android:id="@+id/captureBtn"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:text="Capture Face"
-        android:textAllCaps="false"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="30dp" />
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/camera_btn_design"/>
 
 </FrameLayout>

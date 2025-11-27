@@ -1,6 +1,7 @@
 package com.example.faceauth.ui
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -28,11 +29,11 @@ class DocumentPickerActivity : AppCompatActivity() {
                 binding.continueBtn.visibility = android.view.View.VISIBLE // 🔥 enable continue
             }
 
-            FaceExtractor.extractFaceFromDocument(this, it) { faceBitmap ->
+            FaceExtractor.extractFaceFromDocument(this, it) { face ->
+                val aligned = Bitmap.createScaledBitmap(face, 160, 160, true)
+                ImageUtils.storeAadhaarFace(this, aligned)   // ⬅ Aadhaar Face Stored Separately
 
-                ImageUtils.storeAadhaarFace(this, faceBitmap)   // ⬅ Aadhaar Face Stored Separately
-
-                binding.documentImage.setImageBitmap(faceBitmap)
+                binding.documentImage.setImageBitmap(aligned)
                 binding.continueBtn.visibility = android.view.View.VISIBLE
             }
 
