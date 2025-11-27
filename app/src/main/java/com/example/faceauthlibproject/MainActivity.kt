@@ -1,5 +1,6 @@
 package com.example.faceauthlibproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.faceauth.FaceAuth
+import com.example.faceauth.ui.AuthResultActivity
 import com.example.faceauth.utils.ImageUtils
 
 class MainActivity : AppCompatActivity() {
@@ -27,13 +29,13 @@ class MainActivity : AppCompatActivity() {
         val savedAadhaarFace = ImageUtils.getAadhaarFace(this)
         val savedSelfieFace = ImageUtils.getSelfieFace(this)
 
-        if (savedSelfieFace != null){
-            Toast.makeText(this, "Selfie Face Exists", Toast.LENGTH_SHORT).show()
-
+        if (savedAadhaarFace != null && savedSelfieFace == null) {
+            FaceAuth.startSelfieAuth()     // After Aadhaar extraction → capture selfie
         }
 
-        Log.d("TEST", "Aadhaar Face Exists = ${savedAadhaarFace != null}")
-        Log.d("TEST", "Selfie Face Exists = ${savedSelfieFace != null}")
+        if (savedAadhaarFace != null && savedSelfieFace != null) {
+            startActivity(Intent(this, AuthResultActivity::class.java))  // Proceed to verification
+        }
 
     }
 }

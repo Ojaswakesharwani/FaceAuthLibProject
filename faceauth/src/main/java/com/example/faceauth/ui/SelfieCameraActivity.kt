@@ -1,5 +1,6 @@
 package com.example.faceauth.ui
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -89,6 +90,7 @@ class SelfieCameraActivity : AppCompatActivity() {
                     ImageUtils.storeSelfieFace(this, face)    // ⬅ correct storage
 
                     Toast.makeText(this, "Selfie Saved ✔", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, AuthResultActivity::class.java))  // ⬅ Move to matching screen
                     finish() // Continue to authentication screen (next milestone)
                 }
             }
