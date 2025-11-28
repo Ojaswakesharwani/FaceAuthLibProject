@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.faceauth.FaceAuth
 import com.example.faceauth.ui.AuthResultActivity
+import com.example.faceauth.utils.AuthenticationMode
 import com.example.faceauth.utils.ImageUtils
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        FaceAuth.init(this)
+        FaceAuth.init(this, AuthenticationMode.IDENTITY)
         FaceAuth.pickAadhaarImage()
 
         val savedAadhaarFace = ImageUtils.getAadhaarFace(this)
